@@ -1,28 +1,10 @@
-import Board from './Board.ts'
+import Position from "./Position";
 
-export default abstract class Piece {
-    id!: number;
-    x!: number;
-    y!: number;
-    isWhite!: boolean;
+export default interface Piece {
+    coords: [number, number];
+    id: number;
+    isWhite: boolean;
+    pathToImage: string;
 
-    constructor(id: number, x: number, y: number, isWhite: boolean) {
-        this.id = id
-        this.x = x
-        this.y = y
-        this.isWhite = isWhite
-    }
-
-    move(newX: number, newY: number): void {
-        if (!this.getValidMoves().indexOf([newX, newY]))
-            throw new Error("That is not a valid MOVEEEEE");
-
-        const board = Board.getInstance();
-        // remove piece from current position
-        board.updatePosition(this.x, this.y, null)
-        board.updatePosition(newX, newY, this)
-    }
-
-    abstract getValidMoves(): [number, number][]
-
+    getValidMoves(board: Position[][]): [number, number][]
 }
